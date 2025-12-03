@@ -1,4 +1,4 @@
-from algorithms import bubble_sort
+from algorithms import bubble_sort, selection_sort
 import tkinter as tk
 import random
 
@@ -24,9 +24,19 @@ def draw_array(array, color_array):
     root.update_idletasks()
 
 #Function to Start Sorting using Bubble Sort
-def start_sort():
+def start_bubble_sort():
     color_array = ['blue' for _ in range(len(array))]
     for arr, i, j in bubble_sort(array):
+        color_array[i] = 'red'
+        color_array[j] = 'red'
+        draw_array(arr, color_array)
+        color_array[i] = 'blue'
+        color_array[j] = 'blue'
+
+#Function to Start Sorting using Selection Sort
+def start_selection_sort():
+    color_array = ['blue' for _ in range(len(array))]
+    for arr, i, j in selection_sort(array):
         color_array[i] = 'red'
         color_array[j] = 'red'
         draw_array(arr, color_array)
@@ -36,9 +46,17 @@ def start_sort():
 #Random Array
 array = [random.randint(10, 100) for _ in range(50)]
 
+#Create a Frame for the Buttons
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
 #'Start Bubble Sort' Button
-start_button = tk.Button(root, text="Start Bubble Sort", command=start_sort)
-start_button.pack(pady=10)
+start_bubble_button = tk.Button(button_frame, text="Start Bubble Sort", command=start_bubble_sort)
+start_bubble_button.pack(side=tk.LEFT, padx=5)
+
+#'Start Selection Sort' Button
+start_selection_button = tk.Button(button_frame, text="Start Selection Sort", command=start_selection_sort)
+start_selection_button.pack(side=tk.LEFT, padx=5)
 
 color_array = ['blue' for _ in range(len(array))]
 draw_array(array, color_array)
