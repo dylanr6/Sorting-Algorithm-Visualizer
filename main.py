@@ -43,12 +43,23 @@ def start_selection_sort():
         color_array[i] = 'blue'
         color_array[j] = 'blue'
 
-#Random Array
+#Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
+
+def randomize_array():
+    global array, color_array
+    array = [random.randint(10, 100) for _ in range(50)]  # Generate new random values
+    color_array = ['blue' for _ in range(len(array))]      # Reset colors
+    draw_array(array, color_array)                         # Replot the array
+
 
 #Create a Frame for the Buttons
 button_frame = tk.Frame(root)
 button_frame.pack(pady=10)
+
+#'Randomize Array' Button
+randomize_button = tk.Button(button_frame, text="Randomize Array", command=randomize_array)
+randomize_button.pack(side=tk.LEFT, padx=5)
 
 #'Start Bubble Sort' Button
 start_bubble_button = tk.Button(button_frame, text="Start Bubble Sort", command=start_bubble_sort)
