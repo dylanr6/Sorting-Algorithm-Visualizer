@@ -45,13 +45,21 @@ def start_selection_sort():
 
 #Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
+saved_array = array.copy()
 
 def randomize_array():
     global array, color_array
     array = [random.randint(10, 100) for _ in range(50)]  # Generate new random values
     color_array = ['blue' for _ in range(len(array))]      # Reset colors
     draw_array(array, color_array)                         # Replot the array
+    saved_array = array.copy()
 
+#Function to Unsort Array
+def unsort_array():
+    global array, saved_array
+    array = saved_array.copy()
+    color_array = ['blue' for _ in range(len(saved_array))] 
+    draw_array(saved_array, color_array)
 
 #Create a Frame for the Buttons
 button_frame = tk.Frame(root)
@@ -68,6 +76,10 @@ start_bubble_button.pack(side=tk.LEFT, padx=5)
 #'Start Selection Sort' Button
 start_selection_button = tk.Button(button_frame, text="Start Selection Sort", command=start_selection_sort)
 start_selection_button.pack(side=tk.LEFT, padx=5)
+
+#'Unsort' Button
+unsort_button = tk.Button(button_frame, text="Unsort", command=unsort_array)
+unsort_button.pack(side=tk.LEFT, padx=5)
 
 color_array = ['blue' for _ in range(len(array))]
 draw_array(array, color_array)
