@@ -9,6 +9,9 @@ root.geometry("800x600")
 canvas = tk.Canvas(root, width=780, height=500, bg='white')
 canvas.pack(pady=20)
 
+comparisons = 0
+swaps = 0
+
 #Function to Plot an Array
 def draw_array(array, color_array):
     canvas.delete("all")
@@ -31,56 +34,68 @@ def start_bubble_sort():
     global array
     color_array = ['blue' for _ in range(len(array))]
     start = time.time()
-    for arr, i, j in bubble_sort(array):
+    for arr, i, j, comps, swps in bubble_sort(array):
+        last_bubble_comparisons = comps
+        last_bubble_swaps = swps
         color_array[i] = 'red'
         color_array[j] = 'red'
         draw_array(arr, color_array)
         color_array[i] = 'blue'
         color_array[j] = 'blue'
     end = time.time()
-
     update_stats("Bubble Sort", end - start)
+    update_comparisons("Bubble Sort", last_bubble_comparisons)
+    update_swaps("Bubble Sort", last_bubble_swaps)
 
 #Function to Start Sorting using Selection Sort
 def start_selection_sort():
     global array
     color_array = ['blue' for _ in range(len(array))]
     start = time.time()
-    for arr, i, j in selection_sort(array):
+    for arr, i, j, comps, swps in selection_sort(array):
+        last_selection_comparisons = comps
+        last_selection_swaps = swps
         color_array[i] = 'red'
         color_array[j] = 'red'
         draw_array(arr, color_array)
         color_array[i] = 'blue'
         color_array[j] = 'blue'
     end = time.time()
-
     update_stats("Selection Sort", end - start)
+    update_comparisons("Selection Sort", last_selection_comparisons)
+    update_swaps("Selection Sort", last_selection_swaps)
 
 #Function to Start Sorting using Merge Sort
 def start_merge_sort():
     global array
     start = time.time()
-    for arr, i, j in merge_sort(array, 0, len(array) - 1):
+    for arr, i, j, comps, swps in merge_sort(array, 0, len(array) - 1):
+        last_merge_comparisons = comps
+        last_merge_swaps = swps
         color_array = ["blue"] * len(array)
         color_array[i] = "red"
         color_array[j] = "red"
         draw_array(arr, color_array)
     end = time.time()
-
     update_stats("Merge Sort", end - start)
+    update_comparisons("Merge Sort", last_merge_comparisons)
+    update_swaps("Merge Sort", last_merge_swaps)
 
 #Function to Start Sorting using Quick Sort
 def start_quick_sort():
     global array
     start = time.time()
-    for arr, i, j in quick_sort(array, 0, len(array) - 1):
+    for arr, i, j, comps, swps in quick_sort(array, 0, len(array) - 1):
+        last_quick_comaprisons = comps
+        last_quick_swaps = swps
         color_array = ["blue"] * len(array)
         color_array[i] = "red"
         color_array[j] = "red"
         draw_array(arr, color_array)
     end = time.time()
-
     update_stats("Quick Sort", end - start)
+    update_comparisons("Quick Sort", last_quick_comaprisons)
+    update_swaps("Quick Sort", last_quick_swaps)
 
 #Function to Start Sorting using All Sorting Menus in a Row
 def start_all_sorts():
@@ -92,6 +107,7 @@ def start_all_sorts():
     start_merge_sort()
     unsort_array()
     start_quick_sort()
+
 
 ### ***OTHER FUNCTIONS (ARRAY STATE/STATS)***
 
@@ -109,6 +125,20 @@ def randomize_array():
 
     stats_label.config(text=
         "Time to Sort:\n"
+        "Bubble Sort - ???\n"
+        "Selection Sort - ???\n"
+        "Merge Sort - ???\n"
+        "Quick Sort - ???"
+    )
+    comparisons_label.config(text=
+        "Comparisons:\n"
+        "Bubble Sort - ???\n"
+        "Selection Sort - ???\n"
+        "Merge Sort - ???\n"
+        "Quick Sort - ???"
+    )
+    swaps_label.config(text=
+        "Swaps:\n"
         "Bubble Sort - ???\n"
         "Selection Sort - ???\n"
         "Merge Sort - ???\n"
@@ -135,6 +165,29 @@ def update_stats(algorith_name, time_taken):
     
     stats_label.config(text="\n".join(new_lines))
 
+def update_comparisons(algorith_name, comparisons):
+    current = comparisons_label.cget("text").split("\n")
+    new_lines = []
+    
+    for line in current:
+        if line.startswith(algorith_name):
+            new_lines.append(f"{algorith_name} - {comparisons}")
+        else:
+            new_lines.append(line)
+    
+    comparisons_label.config(text="\n".join(new_lines))
+
+def update_swaps(algorith_name, swaps):
+    current = swaps_label.cget("text").split("\n")
+    new_lines = []
+    
+    for line in current:
+        if line.startswith(algorith_name):
+            new_lines.append(f"{algorith_name} - {swaps}")
+        else:
+            new_lines.append(line)
+    
+    swaps_label.config(text="\n".join(new_lines))
 
 ### ***UI FRAMES/BUTTONS***
 
@@ -158,6 +211,30 @@ stats_label = tk.Label(
     font=("Arial", 10)
 )
 stats_label.pack()
+
+#Create a Frame to show Comparisons stats
+comparisons_frame = tk.Frame(root, bd=2, relief="solid", padx=10, pady=10)
+comparisons_frame.place(x=20, y=210)
+
+comparisons_label = tk.Label(
+    stats_frame,
+    text="Comparisons:\nBubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
+    justify="left",
+    font=("Arial", 10)
+)
+comparisons_label.pack()
+
+#Create a Frame to show Swaps stats
+swaps_frame = tk.Frame(root, bd=2, relief="solid", padx=10, pady=10)
+swaps_frame.place(x=20, y=410)
+
+swaps_label = tk.Label(
+    stats_frame,
+    text="Swaps:\nBubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
+    justify="left",
+    font=("Arial", 10)
+)
+swaps_label.pack()
 
 #'Start All Sorts' Button
 randomize_button = tk.Button(button_frame, text="Start All Sorts", command=start_all_sorts)
