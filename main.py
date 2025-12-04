@@ -1,5 +1,6 @@
 from algorithms import bubble_sort, selection_sort, merge, merge_sort, quick_sort, partition
 import tkinter as tk
+from tkinter import font
 import random, time
 
 root = tk.Tk()
@@ -43,7 +44,7 @@ def start_bubble_sort():
         color_array[i] = 'blue'
         color_array[j] = 'blue'
     end = time.time()
-    update_stats("Bubble Sort", end - start)
+    update_time("Bubble Sort", end - start)
     update_comparisons("Bubble Sort", last_bubble_comparisons)
     update_swaps("Bubble Sort", last_bubble_swaps)
 
@@ -53,17 +54,15 @@ def start_selection_sort():
     color_array = ['blue' for _ in range(len(array))]
     start = time.time()
     for arr, i, j, comps, swps in selection_sort(array):
-        last_selection_comparisons = comps
-        last_selection_swaps = swps
         color_array[i] = 'red'
         color_array[j] = 'red'
         draw_array(arr, color_array)
         color_array[i] = 'blue'
         color_array[j] = 'blue'
     end = time.time()
-    update_stats("Selection Sort", end - start)
-    update_comparisons("Selection Sort", last_selection_comparisons)
-    update_swaps("Selection Sort", last_selection_swaps)
+    update_time("Selection Sort", end - start)
+    update_comparisons("Selection Sort", comps)
+    update_swaps("Selection Sort", swps)
 
 #Function to Start Sorting using Merge Sort
 def start_merge_sort():
@@ -77,7 +76,7 @@ def start_merge_sort():
         color_array[j] = "red"
         draw_array(arr, color_array)
     end = time.time()
-    update_stats("Merge Sort", end - start)
+    update_time("Merge Sort", end - start)
     update_comparisons("Merge Sort", last_merge_comparisons)
     update_swaps("Merge Sort", last_merge_swaps)
 
@@ -93,7 +92,7 @@ def start_quick_sort():
         color_array[j] = "red"
         draw_array(arr, color_array)
     end = time.time()
-    update_stats("Quick Sort", end - start)
+    update_time("Quick Sort", end - start)
     update_comparisons("Quick Sort", last_quick_comaprisons)
     update_swaps("Quick Sort", last_quick_swaps)
 
@@ -109,7 +108,7 @@ def start_all_sorts():
     start_quick_sort()
 
 
-### ***OTHER FUNCTIONS (ARRAY STATE/STATS)***
+### ***OTHER FUNCTIONS (ARRAY STATE)***
 
 #Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
@@ -123,7 +122,7 @@ def randomize_array():
     draw_array(array, color_array)                         # Replot the array
     saved_array = array.copy()
 
-    stats_label.config(text=
+    time_label.config(text=
         "Time to Sort:\n"
         "Bubble Sort - ???\n"
         "Selection Sort - ???\n"
@@ -152,9 +151,12 @@ def unsort_array():
     color_array = ['blue' for _ in range(len(saved_array))] 
     draw_array(saved_array, color_array)
 
+
+### ***STATS FUNCTIONS***
+
 #Function to update time stats
-def update_stats(algorith_name, time_taken):
-    current = stats_label.cget("text").split("\n")
+def update_time(algorith_name, time_taken):
+    current = time_label.cget("text").split("\n")
     new_lines =[]
 
     for line in current:
@@ -163,7 +165,7 @@ def update_stats(algorith_name, time_taken):
         else:
             new_lines.append(line)
     
-    stats_label.config(text="\n".join(new_lines))
+    time_label.config(text="\n".join(new_lines))
 
 def update_comparisons(algorith_name, comparisons):
     current = comparisons_label.cget("text").split("\n")
@@ -200,41 +202,56 @@ array_size_slider = tk.Scale(root, from_=10, to=100, orient=tk.HORIZONTAL, label
 array_size_slider.set(50)
 array_size_slider.pack(pady=10)
 
-#Create a Frame to show timer stats
-stats_frame = tk.Frame(root, bd=2, relief="solid", padx=10, pady=10)
-stats_frame.place(x=20, y=10)
+#Font for Titles
+title_font = font.Font(family="Arial", size=10, weight="bold")
 
-stats_label = tk.Label(
-    stats_frame,
-    text="Time to Sort:\nBubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
+#Create a Frame to show timer stats
+time_frame = tk.Frame(root, bd=2, relief="solid", width=170, height=120, padx=10, pady=10)
+time_frame.place(x=20, y=10)
+time_frame.pack_propagate(False)
+
+time_title = tk.Label(time_frame, text="Time to Sort:", font=title_font)
+time_title.pack(anchor="w")
+
+time_label = tk.Label(
+    time_frame,
+    text="Bubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
     justify="left",
     font=("Arial", 10)
 )
-stats_label.pack()
+time_label.pack(anchor="w")
 
 #Create a Frame to show Comparisons stats
-comparisons_frame = tk.Frame(root, bd=2, relief="solid", padx=10, pady=10)
-comparisons_frame.place(x=20, y=210)
+comparisons_frame = tk.Frame(root, bd=2, relief="solid", width=170, height=120, padx=10, pady=10)
+comparisons_frame.place(x=20, y=160)
+comparisons_frame.pack_propagate(False)
+
+comparisons_title = tk.Label(comparisons_frame, text="Comparisons:", font=title_font)
+comparisons_title.pack(anchor="w")
 
 comparisons_label = tk.Label(
-    stats_frame,
-    text="Comparisons:\nBubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
+    comparisons_frame,
+    text="Bubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
     justify="left",
     font=("Arial", 10)
 )
-comparisons_label.pack()
+comparisons_label.pack(anchor="w")
 
 #Create a Frame to show Swaps stats
-swaps_frame = tk.Frame(root, bd=2, relief="solid", padx=10, pady=10)
-swaps_frame.place(x=20, y=410)
+swaps_frame = tk.Frame(root, bd=2, relief="solid", width=170, height=120, padx=10, pady=10)
+swaps_frame.place(x=20, y=310)
+swaps_frame.pack_propagate(False)
+
+swaps_title = tk.Label(swaps_frame, text="Swaps:", font=title_font)
+swaps_title.pack(anchor="w")
 
 swaps_label = tk.Label(
-    stats_frame,
-    text="Swaps:\nBubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
+    swaps_frame,
+    text="Bubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
     justify="left",
     font=("Arial", 10)
 )
-swaps_label.pack()
+swaps_label.pack(anchor="w")
 
 #'Start All Sorts' Button
 randomize_button = tk.Button(button_frame, text="Start All Sorts", command=start_all_sorts)
