@@ -23,6 +23,9 @@ def draw_array(array, color_array):
         canvas.create_rectangle(x0, y0, x1, y1, fill=color_array[i])
     root.update_idletasks()
 
+
+### ***FUNCTIONS FOR SORTING***
+
 #Function to Start Sorting using Bubble Sort
 def start_bubble_sort():
     global array
@@ -79,6 +82,19 @@ def start_quick_sort():
 
     update_stats("Quick Sort", end - start)
 
+#Function to Start Sorting using All Sorting Menus in a Row
+def start_all_sorts():
+    unsort_array()
+    start_bubble_sort()
+    unsort_array()
+    start_selection_sort()
+    unsort_array()
+    start_merge_sort()
+    unsort_array()
+    start_quick_sort()
+
+### ***OTHER FUNCTIONS (ARRAY STATE/STATS)***
+
 #Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
 saved_array = array.copy()
@@ -119,6 +135,9 @@ def update_stats(algorith_name, time_taken):
     
     stats_label.config(text="\n".join(new_lines))
 
+
+### ***UI FRAMES/BUTTONS***
+
 #Create a Frame for the Buttons
 button_frame = tk.Frame(root)
 button_frame.pack(pady=10)
@@ -139,6 +158,10 @@ stats_label = tk.Label(
     font=("Arial", 10)
 )
 stats_label.pack()
+
+#'Start All Sorts' Button
+randomize_button = tk.Button(button_frame, text="Start All Sorts", command=start_all_sorts)
+randomize_button.pack(side=tk.LEFT, padx=5)
 
 #'Randomize Array' Button
 randomize_button = tk.Button(button_frame, text="Randomize Array", command=randomize_array)
@@ -163,6 +186,7 @@ start_merge_button.pack(side=tk.LEFT, padx=5)
 #'Unsort' Button
 unsort_button = tk.Button(button_frame, text="Unsort", command=unsort_array)
 unsort_button.pack(side=tk.LEFT, padx=5)
+
 
 color_array = ['blue' for _ in range(len(array))]
 draw_array(array, color_array)
