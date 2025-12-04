@@ -1,4 +1,4 @@
-from algorithms import bubble_sort, selection_sort
+from algorithms import bubble_sort, selection_sort, merge, merge_sort
 import tkinter as tk
 import random
 
@@ -43,12 +43,21 @@ def start_selection_sort():
         color_array[i] = 'blue'
         color_array[j] = 'blue'
 
+#Function to Start Sorting using Merge Sort
+def start_merge_sort():
+    global array
+    for arr, i, j in merge_sort(array, 0, len(array) - 1):
+        color_array = ["blue"] * len(array)
+        color_array[i] = "red"
+        color_array[j] = "red"
+        draw_array(arr, color_array)
+
 #Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
 saved_array = array.copy()
 
 def randomize_array():
-    global array, color_array
+    global array, color_array, saved_array
     array = [random.randint(10, 100) for _ in range(50)]  # Generate new random values
     color_array = ['blue' for _ in range(len(array))]      # Reset colors
     draw_array(array, color_array)                         # Replot the array
@@ -76,6 +85,10 @@ start_bubble_button.pack(side=tk.LEFT, padx=5)
 #'Start Selection Sort' Button
 start_selection_button = tk.Button(button_frame, text="Start Selection Sort", command=start_selection_sort)
 start_selection_button.pack(side=tk.LEFT, padx=5)
+
+#'Start Selection Sort' Button
+start_merge_button = tk.Button(button_frame, text="Start Merge Sort", command=start_merge_sort)
+start_merge_button.pack(side=tk.LEFT, padx=5)
 
 #'Unsort' Button
 unsort_button = tk.Button(button_frame, text="Unsort", command=unsort_array)
