@@ -1,6 +1,6 @@
 from algorithms import bubble_sort, selection_sort, merge, merge_sort, quick_sort, partition
 import tkinter as tk
-import random
+import random, time
 
 root = tk.Tk()
 root.title("Sorting Algorithm Visualizer")
@@ -25,41 +25,59 @@ def draw_array(array, color_array):
 
 #Function to Start Sorting using Bubble Sort
 def start_bubble_sort():
+    global array
     color_array = ['blue' for _ in range(len(array))]
+    start = time.time()
     for arr, i, j in bubble_sort(array):
         color_array[i] = 'red'
         color_array[j] = 'red'
         draw_array(arr, color_array)
         color_array[i] = 'blue'
         color_array[j] = 'blue'
+    end = time.time()
+
+    update_stats("Bubble Sort", end - start)
 
 #Function to Start Sorting using Selection Sort
 def start_selection_sort():
+    global array
     color_array = ['blue' for _ in range(len(array))]
+    start = time.time()
     for arr, i, j in selection_sort(array):
         color_array[i] = 'red'
         color_array[j] = 'red'
         draw_array(arr, color_array)
         color_array[i] = 'blue'
         color_array[j] = 'blue'
+    end = time.time()
+
+    update_stats("Selection Sort", end - start)
 
 #Function to Start Sorting using Merge Sort
 def start_merge_sort():
     global array
+    start = time.time()
     for arr, i, j in merge_sort(array, 0, len(array) - 1):
         color_array = ["blue"] * len(array)
         color_array[i] = "red"
         color_array[j] = "red"
         draw_array(arr, color_array)
+    end = time.time()
+
+    update_stats("Merge Sort", end - start)
 
 #Function to Start Sorting using Quick Sort
 def start_quick_sort():
     global array
+    start = time.time()
     for arr, i, j in quick_sort(array, 0, len(array) - 1):
         color_array = ["blue"] * len(array)
         color_array[i] = "red"
         color_array[j] = "red"
         draw_array(arr, color_array)
+    end = time.time()
+
+    update_stats("Quick Sort", end - start)
 
 #Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
@@ -73,12 +91,33 @@ def randomize_array():
     draw_array(array, color_array)                         # Replot the array
     saved_array = array.copy()
 
+    stats_label.config(text=
+        "Time to Sort:\n"
+        "Bubble Sort - ???\n"
+        "Selection Sort - ???\n"
+        "Merge Sort - ???\n"
+        "Quick Sort - ???"
+    )
+
 #Function to Unsort Array
 def unsort_array():
     global array, saved_array
     array = saved_array.copy()
     color_array = ['blue' for _ in range(len(saved_array))] 
     draw_array(saved_array, color_array)
+
+#Function to update time stats
+def update_stats(algorith_name, time_taken):
+    current = stats_label.cget("text").split("\n")
+    new_lines =[]
+
+    for line in current:
+        if line.startswith(algorith_name):
+            new_lines.append(f"{algorith_name} - {time_taken:.2f} sec")
+        else:
+            new_lines.append(line)
+    
+    stats_label.config(text="\n".join(new_lines))
 
 #Create a Frame for the Buttons
 button_frame = tk.Frame(root)
@@ -88,6 +127,18 @@ button_frame.pack(pady=10)
 array_size_slider = tk.Scale(root, from_=10, to=100, orient=tk.HORIZONTAL, label="Array Size", length=300)
 array_size_slider.set(50)
 array_size_slider.pack(pady=10)
+
+#Create a Frame to show timer stats
+stats_frame = tk.Frame(root, bd=2, relief="solid", padx=10, pady=10)
+stats_frame.place(x=20, y=10)
+
+stats_label = tk.Label(
+    stats_frame,
+    text="Time to Sort:\nBubble Sort - ???\nSelection Sort - ???\nMerge Sort - ???\nQuick Sort - ???",
+    justify="left",
+    font=("Arial", 10)
+)
+stats_label.pack()
 
 #'Randomize Array' Button
 randomize_button = tk.Button(button_frame, text="Randomize Array", command=randomize_array)
