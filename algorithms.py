@@ -7,6 +7,7 @@ def bubble_sort(array):
                 array[j], array[j+1] = array[j+1], array[j]
                 yield array, j, j+1
 
+
 #Selection Sort Function
 def selection_sort(array):
     n = len(array)
@@ -68,3 +69,29 @@ def merge_sort(arr, left, right):
 
     #Merge the halves
     yield from merge(arr, left, mid, right)
+
+
+#Quick Sort Functions
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+
+    for j in range(low, high):
+        yield arr, j, high  #highlights the pivot and current selected element
+
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+            yield arr, i, j
+    
+    #Moves the pivot to the correct position
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    yield arr, i + 1, high
+
+    return i + 1
+
+def quick_sort(arr, low, high):
+    if low < high:
+        pivot_index = yield from partition(arr, low, high)
+        yield from quick_sort(arr, low, pivot_index - 1)
+        yield from quick_sort(arr, pivot_index + 1, high)

@@ -1,4 +1,4 @@
-from algorithms import bubble_sort, selection_sort, merge, merge_sort
+from algorithms import bubble_sort, selection_sort, merge, merge_sort, quick_sort, partition
 import tkinter as tk
 import random
 
@@ -52,6 +52,15 @@ def start_merge_sort():
         color_array[j] = "red"
         draw_array(arr, color_array)
 
+#Function to Start Sorting using Quick Sort
+def start_quick_sort():
+    global array
+    for arr, i, j in quick_sort(array, 0, len(array) - 1):
+        color_array = ["blue"] * len(array)
+        color_array[i] = "red"
+        color_array[j] = "red"
+        draw_array(arr, color_array)
+
 #Randomized Array
 array = [random.randint(10, 100) for _ in range(50)]
 saved_array = array.copy()
@@ -86,8 +95,12 @@ start_bubble_button.pack(side=tk.LEFT, padx=5)
 start_selection_button = tk.Button(button_frame, text="Start Selection Sort", command=start_selection_sort)
 start_selection_button.pack(side=tk.LEFT, padx=5)
 
-#'Start Selection Sort' Button
+#'Start Merge Sort' Button
 start_merge_button = tk.Button(button_frame, text="Start Merge Sort", command=start_merge_sort)
+start_merge_button.pack(side=tk.LEFT, padx=5)
+
+#'Start Quick Sort' Button
+start_merge_button = tk.Button(button_frame, text="Start Quick Sort", command=start_quick_sort)
 start_merge_button.pack(side=tk.LEFT, padx=5)
 
 #'Unsort' Button
