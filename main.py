@@ -67,7 +67,8 @@ saved_array = array.copy()
 
 def randomize_array():
     global array, color_array, saved_array
-    array = [random.randint(10, 100) for _ in range(50)]  # Generate new random values
+    size = array_size_slider.get()
+    array = [random.randint(10, 100) for _ in range(size)]  # Generate new random values
     color_array = ['blue' for _ in range(len(array))]      # Reset colors
     draw_array(array, color_array)                         # Replot the array
     saved_array = array.copy()
@@ -82,6 +83,11 @@ def unsort_array():
 #Create a Frame for the Buttons
 button_frame = tk.Frame(root)
 button_frame.pack(pady=10)
+
+#Create a Slider for the Array Size
+array_size_slider = tk.Scale(root, from_=10, to=100, orient=tk.HORIZONTAL, label="Array Size", length=300)
+array_size_slider.set(50)
+array_size_slider.pack(pady=10)
 
 #'Randomize Array' Button
 randomize_button = tk.Button(button_frame, text="Randomize Array", command=randomize_array)
