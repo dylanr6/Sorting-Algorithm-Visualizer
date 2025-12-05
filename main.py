@@ -123,21 +123,18 @@ def randomize_array():
     saved_array = array.copy()
 
     time_label.config(text=
-        "Time to Sort:\n"
         "Bubble Sort - ???\n"
         "Selection Sort - ???\n"
         "Merge Sort - ???\n"
         "Quick Sort - ???"
     )
     comparisons_label.config(text=
-        "Comparisons:\n"
         "Bubble Sort - ???\n"
         "Selection Sort - ???\n"
         "Merge Sort - ???\n"
         "Quick Sort - ???"
     )
     swaps_label.config(text=
-        "Swaps:\n"
         "Bubble Sort - ???\n"
         "Selection Sort - ???\n"
         "Merge Sort - ???\n"
