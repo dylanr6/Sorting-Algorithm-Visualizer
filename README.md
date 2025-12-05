@@ -2,6 +2,9 @@
 A GUI that shows bars being sorted in real time, built using Python and Tkinter.  
 This visualizer animates some popular sorting algorithms in real-time, displaying comparisons, swaps, and execution time for each algorithm.  
    
+## Screenshot of the GUI
+![Screenshot of the GUI](images/algorithm-visualizer-screenshot.png)
+   
 ## Features  
 - GUI built with Tkinter  
 - Real-time animations for each sorting algorithm  
